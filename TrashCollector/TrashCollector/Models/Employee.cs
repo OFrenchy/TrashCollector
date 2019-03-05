@@ -6,14 +6,28 @@ using System.Web;
 
 namespace TrashCollector.Models
 {
-    public class Employee : User
+    public class Employee 
     {
-        //[Key]
-        //public int ID { get; set; }
-        //public string Name { get; set; }
-        //public string Zip { get; set; }
-        //public string Email { get; set; }
-        //public string Password { get; set; }
+        [Key]
+        public int ID { get; set; }
+        public string Name { get; set; }
+        public string Zip { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
+
+
+        // Add these later, after the AspNet tables have been created, esp. AspNetRoles
+
+        //[ForeignKey("UserRoles")]
+        ////[Display(Name = "Team Name")]
+        //public int RoleID { get; set; }
+        //public Role Role { get; set; }
+
+        ////[ForeignKey("ApplicationUser")]
+        ////public string ApplicationUserId { get; set; }
+        ////public ApplicationUser ApplicationUser { get; set; }
+
+        //public IEnumerable<Role> Roles { get; set; }
 
 
     }
