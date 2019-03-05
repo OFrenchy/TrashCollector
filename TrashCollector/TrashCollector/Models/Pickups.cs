@@ -18,6 +18,7 @@ namespace TrashCollector.Models
 
         [ForeignKey("Customer")]
         public int CustomerID { get; set; }
+        public Customer Customer { get; set; }
 
         public DateTime DateOfPickup { get; set; }
         public string Zip { get; set; }

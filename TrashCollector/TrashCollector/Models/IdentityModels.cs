@@ -24,6 +24,8 @@ namespace TrashCollector.Models
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Pickups> Pickups { get; set; }
 
+        public DbSet<dbo.>
+
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {

@@ -35,5 +35,7 @@ namespace TrashCollector.Models
         public int PickupDayOfWeek { get; set; }
         public DateTime SpecialPickupDate { get; set; }
 
+
+
     }
 }
