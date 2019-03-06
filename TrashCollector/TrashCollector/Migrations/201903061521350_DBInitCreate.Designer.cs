@@ -7,13 +7,13 @@ namespace TrashCollector.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class InitialDBCreation : IMigrationMetadata
+    public sealed partial class DBInitCreate : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(InitialDBCreation));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(DBInitCreate));
         
         string IMigrationMetadata.Id
         {
-            get { return "201903052123206_InitialDBCreation"; }
+            get { return "201903061521350_DBInitCreate"; }
         }
         
         string IMigrationMetadata.Source
