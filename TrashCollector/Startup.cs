@@ -39,7 +39,7 @@ namespace TrashCollector
                 user.UserName = "Dean";
                 user.Email = "Dean@Dean.com";
 
-                string userPWD = "Dean";
+                string userPWD = "Deandean1!";
 
                 var chkUser = UserManager.Create(user, userPWD);
 

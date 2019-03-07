@@ -11,6 +11,11 @@ namespace TrashCollector.Controllers
     {
         ApplicationDbContext db;
 
+        public EmployeeController()
+        {
+            db = new ApplicationDbContext();
+        }
+
         // GET: Employee
         public ActionResult Index()
         {
@@ -22,6 +27,9 @@ namespace TrashCollector.Controllers
         public ActionResult Details(int id)
         {
             //return View(db.SuperHeroes.Find(id));
+
+            //Employee employee = db.Employees.Find(id);
+            //employee.ApplicationUser.Roles.
             return View(db.Employees.Find(id));
         }
 
@@ -40,6 +48,19 @@ namespace TrashCollector.Controllers
                 //db.SuperHeroes.Add(superHero);
                 //db.SaveChanges();
                 //return RedirectToAction("Index");
+
+                //db.Roles.Where(r => r.Id == employee.ApplicationUserId .Roles.)
+                //employee.RoleName = employee.ApplicationUser.Roles.u
+
+                //db.Roles.Select(r => r.Id == r.Name == r.Users == r.) <- all are available in Roles 
+                
+                //?? Can I get at the AspNetUserRoles table to get the roleID, based on 
+                // the employee.ApplicationUserId?
+                //  Or can I just save the Role.Name to RoleName upon creation???
+
+            
+
+
                 db.Employees.Add(employee);
                 db.SaveChanges();
                 return RedirectToAction("Index");

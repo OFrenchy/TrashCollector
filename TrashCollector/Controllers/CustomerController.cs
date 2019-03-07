@@ -8,9 +8,13 @@ using TrashCollector.Models;
 namespace TrashCollector.Controllers
 {
     public class CustomerController : Controller
-    {    
+    {
         ApplicationDbContext db;
 
+        public CustomerController()
+        {
+            db = new ApplicationDbContext();
+        }
         // GET: Customer
         public ActionResult Index()
         {

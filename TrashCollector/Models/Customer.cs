@@ -21,13 +21,16 @@ namespace TrashCollector.Models
         public DateTime StopDate { get; set; }
         public DateTime StartDate { get; set; }
         public int Bill { get; set; }
+        public string BillDetails { get; set; }
+        public string RoleName { get; set; }
+
 
         // Add these later, after the AspNet tables have been created, esp. AspNetRoles
 
         //[ForeignKey("UserRoles")]
         ////[Display(Name = "Team Name")]
         //public int RoleID { get; set; }
-        //public Role Role { get; set; }
+        ////public Role Role { get; set; }
 
         [ForeignKey("ApplicationUser")]
         public string ApplicationUserId { get; set; }

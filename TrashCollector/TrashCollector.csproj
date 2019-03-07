@@ -181,13 +181,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201903061521350_DBInitCreate.cs" />
-    <Compile Include="Migrations\201903061521350_DBInitCreate.Designer.cs">
-      <DependentUpon>201903061521350_DBInitCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201903062014037_DBInit.cs" />
-    <Compile Include="Migrations\201903062014037_DBInit.Designer.cs">
-      <DependentUpon>201903062014037_DBInit.cs</DependentUpon>
+    <Compile Include="Migrations\201903070149303_DBInit.cs" />
+    <Compile Include="Migrations\201903070149303_DBInit.Designer.cs">
+      <DependentUpon>201903070149303_DBInit.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -254,10 +250,10 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Customer\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Customer\" />
     <Folder Include="Views\Employee\" />
   </ItemGroup>
   <ItemGroup>
@@ -274,11 +270,8 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201903061521350_DBInitCreate.resx">
-      <DependentUpon>201903061521350_DBInitCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201903062014037_DBInit.resx">
-      <DependentUpon>201903062014037_DBInit.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201903070149303_DBInit.resx">
+      <DependentUpon>201903070149303_DBInit.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
