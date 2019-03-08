@@ -86,6 +86,31 @@ namespace TrashCollector.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
+
+                    if (model.UserRoles == "Customer")
+                    {
+                        //_userManager.
+                        //var this = User.Identity.GetUserId(); // it's null at this point anyway
+
+                        //UserLoginInfo
+                        //ApplicationUser.
+                        //applica
+                        int thisUserID = context.Customers.Where(w => w.ApplicationUser.Email == model.Email).SingleOrDefault().ID ;
+                        //var this = context.Customers.Where(w => w.ApplicationUser.Email == model.Email).Select(s => s.ID);
+                        
+                        // want to do this
+                        //return RedirectToAction("Details", new { id = model.ID });
+                        //return RedirectToAction( "Details" , thisUserID);
+                        return RedirectToAction( "Details" , "Customer", new { id = thisUserID });
+                        
+
+                        //RedirectToRoute()
+                    }
+                    else if (model.UserRoles == "Employee")
+                    {
+                        int thisUserID = context.Employees.Where(w => w.ApplicationUser.Email == model.Email).SingleOrDefault().ID;
+                        return RedirectToAction("Details", "Employee", new { id = thisUserID });
+                    }
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");

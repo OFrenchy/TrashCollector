@@ -19,11 +19,11 @@ namespace TrashCollector.Controllers
         }
 
         // GET: Employee
-        public ActionResult Index()
-        {
-            //return View(db.SuperHeroes.OrderBy(o => o.Name).ToList());
-            return View(db.Employees.OrderBy(o => o.ApplicationUser.Email).ToList());
-        }
+        //public ActionResult Index()
+        //{
+        //    //return View(db.SuperHeroes.OrderBy(o => o.Name).ToList());
+        //    return View(db.Employees.OrderBy(o => o.ApplicationUser.Email).ToList());
+        //}
 
         // GET: Employee/Details/5
         public ActionResult Details(int id)

@@ -16,10 +16,10 @@ namespace TrashCollector.Models
         public string City { get; set; }
         public string State { get; set; }
         public string Zip { get; set; }
-        public int DayOfWeekPickup { get; set; }
-        public DateTime SpecialPickupDate { get; set; }
-        public DateTime StopDate { get; set; }
-        public DateTime StartDate { get; set; }
+        public int? DayOfWeekPickup { get; set; }
+        public DateTime? SpecialPickupDate { get; set; }
+        public DateTime? StopDate { get; set; }
+        public DateTime? StartDate { get; set; }
         public int Bill { get; set; }
         public string BillDetails { get; set; }
         public string RoleName { get; set; }

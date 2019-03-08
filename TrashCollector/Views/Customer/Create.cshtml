@@ -41,13 +41,13 @@
         </div>
     </div>
     @*@Html.DisplayFor(model => model.State)*@
-    @*<div class="form-group">
-            @Html.LabelFor(model => model.Zip, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Zip, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Zip, "", new { @class = "text-danger" })
-            </div>
-        </div>*@
+    <div class="form-group">
+        @Html.LabelFor(model => model.State, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.State, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
+        </div>
+    </div>
     <div class="form-group">
         @Html.LabelFor(model => model.Zip, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
@@ -83,5 +83,5 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Edit")
+    @Html.ActionLink("Back to Edit", "Edit")
 </div>

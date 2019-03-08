@@ -17,11 +17,11 @@ namespace TrashCollector.Controllers
             db = new ApplicationDbContext();
         }
         // GET: Customer
-        public ActionResult Index()
-        {
-            //return View(db.SuperHeroes.OrderBy(o => o.Name).ToList());
-            return View(db.Customers.OrderBy(o => o.ApplicationUser.Email).ToList());
-        }
+        //public ActionResult Index()
+        //{
+        //    //return View(db.SuperHeroes.OrderBy(o => o.Name).ToList());
+        //    return View(db.Customers.OrderBy(o => o.ApplicationUser.Email).ToList());
+        //}
 
         // GET: Customer/Details/5
         public ActionResult Details(int id)
@@ -45,12 +45,20 @@ namespace TrashCollector.Controllers
                 //db.SuperHeroes.Add(superHero);
                 //db.SaveChanges();
                 //return RedirectToAction("Index");
+                //customer.Name = 
+
+
+                //customer.ApplicationUser = "Customer";
+                //customer.BillDetails = "";
                 customer.RoleName = "Customer";
                 customer.ApplicationUserId = User.Identity.GetUserId();
+                //customer.ApplicationUser = User.Identity.GetUserName();
+
 
                 db.Customers.Add(customer);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                //return RedirectToAction("Edit");
+                return RedirectToAction("Edit", new { id = customer.ID });
             }
             catch
             {
@@ -80,13 +88,22 @@ namespace TrashCollector.Controllers
         {
             try
             {
-                // TODO: Add update logic here
                 Customer thisCustomer = db.Customers.Find(id);
+
+                thisCustomer.Name = customer.Name;
+                thisCustomer.Street = customer.Street;
+                thisCustomer.City = customer.City;
+                thisCustomer.State = customer.State;
                 thisCustomer.Zip = customer.Zip;
-                // thisCustomer.ID
+                thisCustomer.DayOfWeekPickup = customer.DayOfWeekPickup;
+                thisCustomer.StopDate = customer.StopDate;
+                thisCustomer.StartDate = customer.StartDate;
+                thisCustomer.SpecialPickupDate = customer.SpecialPickupDate;
 
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                //return View(customer);
+                //return RedirectToAction("Details");
+                return RedirectToAction("Details", new { id = customer.ID });
             }
             catch
             {

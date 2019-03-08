@@ -88,7 +88,7 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Bill)
+             $@Html.DisplayFor(model => model.Bill)
         </dd>
 
         <dt>
@@ -99,7 +99,7 @@
             @Html.DisplayFor(model => model.BillDetails)
         </dd>
 
-        <dt>
+        @*<dt>
             @Html.DisplayNameFor(model => model.RoleName)
         </dt>
 
@@ -113,11 +113,20 @@
 
         <dd>
             @Html.DisplayFor(model => model.ApplicationUserId)
-        </dd>
+        </dd>*@
 
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID })
+
+
+    @*@Html.Action("PayBill")*@
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Pay Bill" class="btn btn-default" />
+        </div>
+    </div>
+
 </p>

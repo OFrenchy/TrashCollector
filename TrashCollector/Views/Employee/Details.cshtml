@@ -39,10 +39,15 @@
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
-    
-    @*// Change this to go somewhere that exists - perhaps the work order, or index*@
-    @Html.ActionLink("Back to List", "Index")
 
-    
+    @*@Html.Action("GetWork")*@
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Get Today's Pickup List" class="btn btn-default" />
+        </div>
+    </div>
+
+ 
 
 </p>
