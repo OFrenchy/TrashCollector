@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -50,20 +52,26 @@ namespace TrashCollector.Controllers
                 //return RedirectToAction("Index");
 
                 //db.Roles.Where(r => r.Id == employee.ApplicationUserId .Roles.)
-                //employee.RoleName = employee.ApplicationUser.Roles.u
+                //employee.RoleName = //employee.ApplicationUser.Roles.u
 
                 //db.Roles.Select(r => r.Id == r.Name == r.Users == r.) <- all are available in Roles 
-                
+
                 //?? Can I get at the AspNetUserRoles table to get the roleID, based on 
                 // the employee.ApplicationUserId?
                 //  Or can I just save the Role.Name to RoleName upon creation???
+                // var whatever = employee.ApplicationUser.GenerateUserIdentityAsync(new ApplicationUserManager
 
-            
 
+                //employee.RoleName = db.Roles.Where(r => r.Name == "Employee").FirstOrDefault().ToString();
+                //employee.RoleName = db.Roles.Where(r => r.Name == "Employee"). .FirstOrDefault().ToString();
+                employee.RoleName = "Employee";
+                // gets the id of the currently logged in ASPNetUser
+                employee.ApplicationUserId = User.Identity.GetUserId();
 
                 db.Employees.Add(employee);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                //return RedirectToAction("Details","Employee");
+                return RedirectToAction("Details", new { id = employee.ID });
             }
             catch
             {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -44,6 +45,9 @@ namespace TrashCollector.Controllers
                 //db.SuperHeroes.Add(superHero);
                 //db.SaveChanges();
                 //return RedirectToAction("Index");
+                customer.RoleName = "Customer";
+                customer.ApplicationUserId = User.Identity.GetUserId();
+
                 db.Customers.Add(customer);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -58,6 +62,15 @@ namespace TrashCollector.Controllers
         // GET: Customer/Edit/5
         public ActionResult Edit(int id)
         {
+            List<SelectListItem> daysOfWeek = new List<SelectListItem>();
+            DayOfWeek dow = DayOfWeek.Monday;
+            for (int i = 1; i < 6; i++)
+            {
+                daysOfWeek.Add((new SelectListItem() { Text = dow.ToString(), Value = i.ToString() }));
+                dow++;
+            }
+            ViewBag.DaysOfWeek = daysOfWeek;
+
             return View(db.Customers.Find(id));
         }
 

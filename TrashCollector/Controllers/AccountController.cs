@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
@@ -59,6 +60,10 @@ namespace TrashCollector.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
+            List<SelectListItem> items = new List<SelectListItem> { (new SelectListItem() { Text = "Customer", Value = "Customer" }) };
+            items.Add((new SelectListItem() { Text = "Employee", Value = "Employee" }));
+            ViewBag.UserNames = items;
+
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
@@ -68,7 +73,7 @@ namespace TrashCollector.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
+        public async Task<ActionResult> Login(LoginViewModel model, string returnUrl, string UserRoles)
         {
             if (!ModelState.IsValid)
             {
@@ -159,6 +164,7 @@ namespace TrashCollector.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    //"Employee" // model.UserRoles
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
@@ -166,7 +172,16 @@ namespace TrashCollector.Controllers
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
+                    if(model.UserRoles == "Employee")
+                    {
+                        // go to creqte an employee!
+                        return RedirectToAction("Create", "Employee");
+                    }
+                    else if (model.UserRoles == "Customer")
+                    {
+                        // go to creqte an employee!
+                        return RedirectToAction("Create", "Customer");
+                    }
                     return RedirectToAction("Index", "Users");
                 }
                 ViewBag.Name = new SelectList(context.Roles.Where(u => !u.Name.Contains("Admin"))

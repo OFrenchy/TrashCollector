@@ -220,3 +220,4 @@
 \\Mac\Home\Documents\devCodeCamp\Assignments\Wk_09_Day_2_TrashCollector\TrashCollector\TrashCollector\obj\Debug\TrashCollector.pdb
 \\Mac\Home\Documents\devCodeCamp\Assignments\Wk_09_Day_2_TrashCollector\TrashCollector\TrashCollector\obj\Debug\TrashCollector.Migrations.DBInit.resources
 \\Mac\Home\Documents\devCodeCamp\Assignments\Wk_09_Day_2_TrashCollector\TrashCollector\TrashCollector\obj\Debug\TrashCollector.csproj.GenerateResource.cache
+\\Mac\Home\Documents\devCodeCamp\Assignments\Wk_09_Day_2_TrashCollector\TrashCollector\TrashCollector\obj\Debug\TrashCollector.Migrations.Customer_AddBillDetails.resources

@@ -185,6 +185,10 @@
     <Compile Include="Migrations\201903070149303_DBInit.Designer.cs">
       <DependentUpon>201903070149303_DBInit.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201903071438002_Customer_AddBillDetails.cs" />
+    <Compile Include="Migrations\201903071438002_Customer_AddBillDetails.Designer.cs">
+      <DependentUpon>201903071438002_Customer_AddBillDetails.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Customer.cs" />
@@ -250,11 +254,15 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Employee\Create.cshtml" />
+    <Content Include="Views\Employee\Details.cshtml" />
+    <Content Include="Views\Employee\Edit.cshtml" />
+    <Content Include="Views\Customer\Create.cshtml" />
+    <Content Include="Views\Customer\Edit.cshtml" />
     <Content Include="Views\Customer\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Employee\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -272,6 +280,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201903070149303_DBInit.resx">
       <DependentUpon>201903070149303_DBInit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903071438002_Customer_AddBillDetails.resx">
+      <DependentUpon>201903071438002_Customer_AddBillDetails.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
