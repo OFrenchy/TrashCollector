@@ -18,12 +18,32 @@ namespace TrashCollector.Controllers
             db = new ApplicationDbContext();
         }
 
-        // GET: Employee
-        //public ActionResult Index()
-        //{
-        //    //return View(db.SuperHeroes.OrderBy(o => o.Name).ToList());
-        //    return View(db.Employees.OrderBy(o => o.ApplicationUser.Email).ToList());
-        //}
+        // GET: Employee; 
+        // get customers with the same zip; 
+        // default view is today, get today's customers, 
+        // less any people who are set to skip, 
+        // plus any special pickups
+        public ActionResult Index()
+        {
+            //return View(db.SuperHeroes.OrderBy(o => o.Name).ToList());
+            //return View(db.Customers.OrderBy(o => o.ApplicationUser.Email).ToList());
+
+            int dayOfWeek = Convert.ToInt32( DateTime.Today.DayOfWeek );
+
+            var customers = db.Customers.Where
+                (w =>
+                    (
+                        (w.DayOfWeekPickup == Convert.ToInt32(DateTime.Today.DayOfWeek)) &&
+                        (w.StartDate != null ? DateTime.Today < w.StartDate : true) &&
+                        (w.StopDate != null ? DateTime.Today >= w.StopDate : true)
+                    ) ||
+                    w.SpecialPickupDate == DateTime.Today
+                );
+                
+            return View(db.Customers.OrderBy(o => o.ApplicationUser.Email).ToList());
+
+
+        }
 
         // GET: Employee/Details/5
         public ActionResult Details(int id)
