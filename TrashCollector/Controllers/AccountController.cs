@@ -109,7 +109,8 @@ namespace TrashCollector.Controllers
                     else if (model.UserRoles == "Employee")
                     {
                         int thisUserID = context.Employees.Where(w => w.ApplicationUser.Email == model.Email).SingleOrDefault().ID;
-                        return RedirectToAction("Details", "Employee", new { id = thisUserID });
+                        ViewBag.EmployeeID = thisUserID;
+                        return RedirectToAction("List", "Employee");//, new { id = thisUserID });
                     }
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:

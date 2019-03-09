@@ -23,26 +23,21 @@ namespace TrashCollector.Controllers
         // default view is today, get today's customers, 
         // less any people who are set to skip, 
         // plus any special pickups
-        public ActionResult Index()
+        public ActionResult Index(int id)
         {
-            //return View(db.SuperHeroes.OrderBy(o => o.Name).ToList());
-            //return View(db.Customers.OrderBy(o => o.ApplicationUser.Email).ToList());
-
-            int dayOfWeek = Convert.ToInt32( DateTime.Today.DayOfWeek );
-
+            //int dayOfWeek = Convert.ToInt32( DateTime.Today.DayOfWeek );
             var customers = db.Customers.Where
                 (w =>
                     (
+                        (w.Zip == db.Employees.Where(e => e.ID == id).FirstOrDefault().Zip) &&
                         (w.DayOfWeekPickup == Convert.ToInt32(DateTime.Today.DayOfWeek)) &&
                         (w.StartDate != null ? DateTime.Today < w.StartDate : true) &&
                         (w.StopDate != null ? DateTime.Today >= w.StopDate : true)
-                    ) ||
+                    ) 
+                    ||
                     w.SpecialPickupDate == DateTime.Today
                 );
-                
-            return View(db.Customers.OrderBy(o => o.ApplicationUser.Email).ToList());
-
-
+            return View(customers);
         }
 
         // GET: Employee/Details/5
