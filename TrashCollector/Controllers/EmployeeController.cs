@@ -43,7 +43,7 @@ namespace TrashCollector.Controllers
                 ).ToList();
 
             // Build the list of days
-            if (!ViewBag.EmployeeDaysOfWeek)
+            if (ViewBag.EmployeeDaysOfWeek == null)
             {
                 List<SelectListItem> EmployeeDaysOfWeek = new List<SelectListItem>();
                 DayOfWeek dow = DayOfWeek.Monday;

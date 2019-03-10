@@ -8,6 +8,8 @@
 
 <p>
     @Html.ActionLink("Create New", "Create")
+    @Html.DisplayText("Looking at work for ")
+    @Html.DropDownList("DayOfWeek", (IEnumerable<SelectListItem>)ViewBag.DaysOfWeek, " ")
 </p>
 <table class="table">
     <tr>
