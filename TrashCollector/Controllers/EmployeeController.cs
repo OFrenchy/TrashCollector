@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using TrashCollector.Models;
 
+
 namespace TrashCollector.Controllers
 {
     public class EmployeeController : Controller
@@ -25,28 +26,42 @@ namespace TrashCollector.Controllers
         // plus any special pickups
         public ActionResult Index(int id)
         {
-            //int dayOfWeek = Convert.ToInt32( DateTime.Today.DayOfWeek );
+            // LINQ didn't recognize the ToInt32
+            int dayOfWeek = Convert.ToInt32(DateTime.Today.DayOfWeek);
             var customers = db.Customers.Where
                 (w =>
                     (
                         (w.Zip == db.Employees.Where(e => e.ID == id).FirstOrDefault().Zip) &&
-                        (w.DayOfWeekPickup == Convert.ToInt32(DateTime.Today.DayOfWeek)) &&
-                        (w.StartDate != null ? DateTime.Today < w.StartDate : true) &&
-                        (w.StopDate != null ? DateTime.Today >= w.StopDate : true)
+                        (w.DayOfWeekPickup == dayOfWeek) &&
+                        (
+                            (w.StartDate != null ? DateTime.Today < w.StartDate : true) ||
+                            (w.StopDate != null ? DateTime.Today >= w.StopDate : true)
+                        )
                     ) 
                     ||
                     w.SpecialPickupDate == DateTime.Today
-                );
+                ).ToList();
+
+            // Build the list of days
+            if (!ViewBag.EmployeeDaysOfWeek)
+            {
+                List<SelectListItem> EmployeeDaysOfWeek = new List<SelectListItem>();
+                DayOfWeek dow = DayOfWeek.Monday;
+                for (int i = 1; i < 6; i++)
+                {
+                    EmployeeDaysOfWeek.Add((new SelectListItem() { Text = dow.ToString(), Value = i.ToString() }));
+                    dow++;
+                }
+                EmployeeDaysOfWeek.Add((new SelectListItem() { Text = "*", Value = "*" }));
+                ViewBag.EmployeeDaysOfWeek = EmployeeDaysOfWeek;
+            }
             return View(customers);
         }
+
 
         // GET: Employee/Details/5
         public ActionResult Details(int id)
         {
-            //return View(db.SuperHeroes.Find(id));
-
-            //Employee employee = db.Employees.Find(id);
-            //employee.ApplicationUser.Roles.
             return View(db.Employees.Find(id));
         }
 
@@ -62,35 +77,16 @@ namespace TrashCollector.Controllers
         {
             try
             {
-                //db.SuperHeroes.Add(superHero);
-                //db.SaveChanges();
-                //return RedirectToAction("Index");
-
-                //db.Roles.Where(r => r.Id == employee.ApplicationUserId .Roles.)
-                //employee.RoleName = //employee.ApplicationUser.Roles.u
-
-                //db.Roles.Select(r => r.Id == r.Name == r.Users == r.) <- all are available in Roles 
-
-                //?? Can I get at the AspNetUserRoles table to get the roleID, based on 
-                // the employee.ApplicationUserId?
-                //  Or can I just save the Role.Name to RoleName upon creation???
-                // var whatever = employee.ApplicationUser.GenerateUserIdentityAsync(new ApplicationUserManager
-
-
-                //employee.RoleName = db.Roles.Where(r => r.Name == "Employee").FirstOrDefault().ToString();
-                //employee.RoleName = db.Roles.Where(r => r.Name == "Employee"). .FirstOrDefault().ToString();
                 employee.RoleName = "Employee";
                 // gets the id of the currently logged in ASPNetUser
                 employee.ApplicationUserId = User.Identity.GetUserId();
 
                 db.Employees.Add(employee);
                 db.SaveChanges();
-                //return RedirectToAction("Details","Employee");
                 return RedirectToAction("Details", new { id = employee.ID });
             }
             catch
             {
-                //return View(superHero);
                 return View(employee);
             }
         }
@@ -107,11 +103,8 @@ namespace TrashCollector.Controllers
         {
             try
             {
-                // TODO: Add update logic here
                 Employee thisEmployee = db.Employees.Find(id);
                 thisEmployee.Zip = employee.Zip;
-                // thisEmployee.ID
-
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -124,7 +117,6 @@ namespace TrashCollector.Controllers
         // GET: Employee/Delete/5
         public ActionResult Delete(int id)
         {
-            //return View();
             Employee employee = db.Employees.Find(id);
             return View(employee);
         }
@@ -135,7 +127,6 @@ namespace TrashCollector.Controllers
         {
             try
             {
-                // TODO: Add delete logic here
                 db.Employees.Remove(db.Employees.Find(id));
                 db.SaveChanges();
                 return RedirectToAction("Index");
