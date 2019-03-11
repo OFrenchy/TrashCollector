@@ -4,13 +4,46 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Today's Pickups   @Html.DropDownList("DayOfWeek", (IEnumerable<SelectListItem>)ViewBag.DaysOfWeek, " ")  </h2>
+<h2>
+    Today's Pickups   @*@Html.DropDownList("SelectedDayOfWeek", (IEnumerable<SelectListItem>)ViewBag.DaysOfWeek, " ")*@
+    @Html.ActionLink("Mon", "Index", new { selectDayOfWeek = 1 })
+    @Html.ActionLink("Tue", "Index", new { selectDayOfWeek = 2 })
+    @Html.ActionLink("Wed", "Index", new { selectDayOfWeek = 3 })
+    @Html.ActionLink("Thu", "Index", new { selectDayOfWeek = 4 })
+    @Html.ActionLink("Fri", "Index", new { selectDayOfWeek = 5 })
+</h2>
+@*@html.beginform*@
+@*view ("Index",  customers);*@
 
+@using (Html.BeginForm("FilterDayOfWeek", "Employee"))
+{
+    <table>
+        <tr>
+            <td>
+                @Html.DropDownList("selectDayOfWeek", (IEnumerable<SelectListItem>)ViewBag.DaysOfWeek, " ")
+                @*@Html.DropDownList("SelectedDayOfWeek2", (IEnumerable<SelectListItem>)ViewBag.DaysOfWeek)*@
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type = "submit" value = "Go">
+               </td>
+           </tr>
+       </table>
+}
+
+
+
+@*return RedirectToAction("Index", "Employee");//, new { id = thisUserID });
+    @Html.ActionLink("Delete", "Delete", new { id = item.ID })*@
+
+@*// ViewBag.Day*@
 <p>
     @*@Html.ActionLink("Create New", "Create")*@
     @*@Html.   .DisplayText("Looking at work for ")*@
     @*@Html.DropDownList("DayOfWeek", (IEnumerable<SelectListItem>)ViewBag.DaysOfWeek, " ")*@
 </p>
+
 <table class="table">
     <tr>
         <th>
@@ -22,7 +55,7 @@
         <th>
             @Html.DisplayNameFor(model => model.City)
         </th>
-        
+
         <th>
             @Html.DisplayNameFor(model => model.DayOfWeekPickup)
         </th>
@@ -45,54 +78,63 @@
             @*@Html.DisplayNameFor("Confirm")*@
             @Html.DisplayName("Confirm Pickup")
         </th>
-        
+
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Street)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.City)
-        </td>
-        
-        <td>
-            @Html.DisplayFor(modelItem => item.DayOfWeekPickup)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SpecialPickupDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.StopDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.StartDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Bill)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.BillDetails)
-        </td>
-        <td>
-            @*@Html.DisplayFor(modelItem => item.RoleName)*@
-            @*@Html.ActionLink("Create New", "Create")*@
-            @*@Html.ActionLink("Confirm", "Confirm", new { id = item.ID }, new { id = item.ID }) |*@
-            @Html.ActionLink("Confirm", "ConfirmPickup", new { id = item.ID }) |
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Street)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.City)
+            </td>
 
-        </td>
-        
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
-        </td>
-    </tr>
-}
+            <td>
+                @Html.DisplayFor(modelItem => item.DayOfWeekPickup)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SpecialPickupDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StopDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartDate)
+            </td>
+            <td>
+                $@Html.DisplayFor(modelItem => item.Bill)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BillDetails)
+            </td>
+            <td>
+                @*@Html.DisplayFor(modelItem => item.RoleName)*@
+                @*@Html.ActionLink("Create New", "Create")*@
+                @*@Html.ActionLink("Confirm", "Confirm", new { id = item.ID }, new { id = item.ID }) |*@
+                @Html.ActionLink("Confirm", "ConfirmPickup", new { id = item.ID }) |
+
+            </td>
+
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+            </td>
+        </tr>
+
+
+
+
+    }
+
+
+
+
 
 </table>

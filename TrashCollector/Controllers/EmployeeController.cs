@@ -24,32 +24,13 @@ namespace TrashCollector.Controllers
         // default view is today, get today's customers, 
         // less any people who are set to skip, 
         // plus any special pickups
-        public ActionResult Index()//int id)
+        public ActionResult Index(int? selectDayOfWeek)
         {
-            var appUserID = User.Identity.GetUserId();
-            var employee = db.Employees.Where(e => e.ApplicationUserId == appUserID).First();
-
             //Empemp1!@gmail.com
-
-            // LINQ didn't recognize the ToInt32
-            int dayOfWeek = Convert.ToInt32(DateTime.Today.DayOfWeek);
-            var customers = db.Customers.Where
-                (w =>
-                    (
-                        (w.Zip == db.Employees.Where(e => e.ID == employee.ID).FirstOrDefault().Zip) &&
-                        (w.DayOfWeekPickup == dayOfWeek) &&
-                        (
-                            (w.StartDate != null ? DateTime.Today < w.StartDate : true) ||
-                            (w.StopDate != null ? DateTime.Today >= w.StopDate : true)
-                        )
-                    ) 
-                    ||
-                    w.SpecialPickupDate == DateTime.Today
-                ).ToList();
-
+            
             // Build the list of days
             List<SelectListItem> DaysOfWeek = new List<SelectListItem>();
-            DayOfWeek dow = DayOfWeek.Monday; //change to Monday on Monday
+            DayOfWeek dow = DayOfWeek.Monday;
             for (int i = 1; i < 6; i++)
             {
                 DaysOfWeek.Add((new SelectListItem() { Text = dow.ToString(), Value = i.ToString() }));
@@ -58,10 +39,81 @@ namespace TrashCollector.Controllers
             //DaysOfWeek.Add((new SelectListItem() { Text = "*", Value = "*" }));
             ViewBag.DaysOfWeek = DaysOfWeek;
             ViewBag.Day = DateTime.Today.DayOfWeek.ToString();
+            
+            var appUserID = User.Identity.GetUserId();
+            var employee = db.Employees.Where(e => e.ApplicationUserId == appUserID).First();
+            //var customers; //= db.Employees.FirstOrDefault();
+
+            //Empemp1!@gmail.com
+
+            if (selectDayOfWeek == null)
+            {
+                // LINQ didn't recognize the ToInt32
+                int dayOfWeek = Convert.ToInt32(DateTime.Today.DayOfWeek);
+                var customers = db.Customers.Where
+                    (w =>
+                        (
+                            (w.Zip == db.Employees.Where(e => e.ID == employee.ID).FirstOrDefault().Zip) &&
+                            (w.DayOfWeekPickup == dayOfWeek) &&
+                            (
+                                (w.StartDate != null ? DateTime.Today < w.StartDate : true) ||
+                                (w.StopDate != null ? DateTime.Today >= w.StopDate : true)
+                            )
+                        ) 
+                        ||
+                        w.SpecialPickupDate == DateTime.Today
+                    ).ToList();
+                return View(customers);
+            }
+            else
+            {
+                var customers = db.Customers.Where
+                (w =>
+                    (w.Zip == db.Employees.Where(e => e.ID == employee.ID).FirstOrDefault().Zip) &&
+                    (w.DayOfWeekPickup == selectDayOfWeek)
+                ).ToList();
+                return View(customers);
+            }
+            //return View(customers);
+        }
+        // FilterDayOfWeek
+        public ActionResult FilterDayOfWeek(int selectDayOfWeek)
+        {
+            // Return ALL customers with dayofweek pickup == dayOfWeek
+            var appUserID = User.Identity.GetUserId();
+            var employee = db.Employees.Where(e => e.ApplicationUserId == appUserID).First();
+
+            //Empemp1!@gmail.com
+
+            // LINQ didn't recognize the ToInt32
+            // int dayOfWeek = Convert.ToInt32(DateTime.Today.DayOfWeek);
+            var customers = db.Customers.Where
+                (w =>
+                    (w.Zip == db.Employees.Where(e => e.ID == employee.ID).FirstOrDefault().Zip) &&
+                    (w.DayOfWeekPickup == selectDayOfWeek) 
+                ).ToList();
+
+            // Build the list of days
+            List<SelectListItem> DaysOfWeek = new List<SelectListItem>();
+            DayOfWeek dow = DayOfWeek.Monday;
+            for (int i = 1; i < 6; i++)
+            {
+                DaysOfWeek.Add((new SelectListItem() { Text = dow.ToString(), Value = i.ToString() }));
+                dow++;
+            }
+            //DaysOfWeek.Add((new SelectListItem() { Text = "*", Value = "*" }));
+            ViewBag.DaysOfWeek = DaysOfWeek;
+            ViewBag.Day = DateTime.Today.DayOfWeek.ToString();
+return View("Index", customers);
+
+            return RedirectToAction("Index", "Employee");
+
+            
+
+
             return View(customers);
         }
-
-        //ConfirmPickup
+        // ConfirmPickup
         public ActionResult ConfirmPickup(int id)
         {
             // id is of customer to confirm pickup
