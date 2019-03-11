@@ -4,12 +4,12 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Today's Pickups</h2>
+<h2>Today's Pickups   @Html.DropDownList("DayOfWeek", (IEnumerable<SelectListItem>)ViewBag.DaysOfWeek, " ")  </h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
-    @Html.DisplayText("Looking at work for ")
-    @Html.DropDownList("DayOfWeek", (IEnumerable<SelectListItem>)ViewBag.DaysOfWeek, " ")
+    @*@Html.ActionLink("Create New", "Create")*@
+    @*@Html.   .DisplayText("Looking at work for ")*@
+    @*@Html.DropDownList("DayOfWeek", (IEnumerable<SelectListItem>)ViewBag.DaysOfWeek, " ")*@
 </p>
 <table class="table">
     <tr>
@@ -81,7 +81,9 @@
         </td>
         <td>
             @*@Html.DisplayFor(modelItem => item.RoleName)*@
-            @Html.ActionLink("Confirm" , "Confirm", new { id = item.ID }) |
+            @*@Html.ActionLink("Create New", "Create")*@
+            @*@Html.ActionLink("Confirm", "Confirm", new { id = item.ID }, new { id = item.ID }) |*@
+            @Html.ActionLink("Confirm", "ConfirmPickup", new { id = item.ID }) |
 
         </td>
         

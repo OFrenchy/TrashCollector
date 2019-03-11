@@ -108,9 +108,10 @@ namespace TrashCollector.Controllers
                     }
                     else if (model.UserRoles == "Employee")
                     {
+                        // Verify / change to check if an actual account logs in with the 
+                        // wrong type employee/customer
                         int thisUserID = context.Employees.Where(w => w.ApplicationUser.Email == model.Email).SingleOrDefault().ID;
-                        ViewBag.EmployeeID = thisUserID;
-                        return RedirectToAction("Index", "Employee", new { id = thisUserID });
+                        return RedirectToAction("Index", "Employee");//, new { id = thisUserID });
                     }
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:

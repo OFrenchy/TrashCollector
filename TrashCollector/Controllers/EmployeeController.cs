@@ -24,14 +24,19 @@ namespace TrashCollector.Controllers
         // default view is today, get today's customers, 
         // less any people who are set to skip, 
         // plus any special pickups
-        public ActionResult Index(int id)
+        public ActionResult Index()//int id)
         {
+            var appUserID = User.Identity.GetUserId();
+            var employee = db.Employees.Where(e => e.ApplicationUserId == appUserID).First();
+
+            //Empemp1!@gmail.com
+
             // LINQ didn't recognize the ToInt32
             int dayOfWeek = Convert.ToInt32(DateTime.Today.DayOfWeek);
             var customers = db.Customers.Where
                 (w =>
                     (
-                        (w.Zip == db.Employees.Where(e => e.ID == id).FirstOrDefault().Zip) &&
+                        (w.Zip == db.Employees.Where(e => e.ID == employee.ID).FirstOrDefault().Zip) &&
                         (w.DayOfWeekPickup == dayOfWeek) &&
                         (
                             (w.StartDate != null ? DateTime.Today < w.StartDate : true) ||
@@ -43,21 +48,104 @@ namespace TrashCollector.Controllers
                 ).ToList();
 
             // Build the list of days
-            if (ViewBag.EmployeeDaysOfWeek == null)
+            List<SelectListItem> DaysOfWeek = new List<SelectListItem>();
+            DayOfWeek dow = DayOfWeek.Monday; //change to Monday on Monday
+            for (int i = 1; i < 6; i++)
             {
-                List<SelectListItem> EmployeeDaysOfWeek = new List<SelectListItem>();
-                DayOfWeek dow = DayOfWeek.Monday;
-                for (int i = 1; i < 6; i++)
-                {
-                    EmployeeDaysOfWeek.Add((new SelectListItem() { Text = dow.ToString(), Value = i.ToString() }));
-                    dow++;
-                }
-                EmployeeDaysOfWeek.Add((new SelectListItem() { Text = "*", Value = "*" }));
-                ViewBag.EmployeeDaysOfWeek = EmployeeDaysOfWeek;
+                DaysOfWeek.Add((new SelectListItem() { Text = dow.ToString(), Value = i.ToString() }));
+                dow++;
             }
+            //DaysOfWeek.Add((new SelectListItem() { Text = "*", Value = "*" }));
+            ViewBag.DaysOfWeek = DaysOfWeek;
+            ViewBag.Day = DateTime.Today.DayOfWeek.ToString();
             return View(customers);
         }
 
+        //ConfirmPickup
+        public ActionResult ConfirmPickup(int id)
+        {
+            // id is of customer to confirm pickup
+            try
+            {
+                //Empemp1!@gmail.com
+                Customer customer = db.Customers.Find(id);
+                customer.Bill = customer.Bill + 25;
+                customer.BillDetails = (customer.BillDetails ?? "") + DateTime.Today.Month.ToString() + "/" +
+                    DateTime.Today.Day.ToString() + " $25; ";
+                db.SaveChanges();
+                return RedirectToAction("Index", "Employee");
+            }
+            catch
+            {
+                return RedirectToAction("Index", "Employee");
+            }
+        }
+
+        // GET: Employee/Confirm/5
+        public ActionResult Confirm(int id)
+        {
+            // id is of customer to confirm pickup
+            try
+            {
+                Customer customer = db.Customers.Find(id);
+
+                return View(customer);
+
+
+                // STOP:  put this in the HTTPPOST??
+
+                customer.Bill = customer.Bill + 25;
+                //Empemp1!@gmail.com
+                customer.BillDetails = customer.BillDetails ?? "" + DateTime.Today.Month.ToString() + "/" +
+                    DateTime.Today.Day.ToString() + " $25; ";
+                db.SaveChanges();
+
+                //int thisUserID = db.Employees.Where(w => w.ApplicationUser.Email == model.Email).SingleOrDefault().ID;
+                //ViewBag.EmployeeID = thisUserID;
+                int thisUserID = ViewBag.EmployeeID;
+                // STOP - ??? Do I need to include the employee ID?  
+                return RedirectToAction("Index", "Employee", new { id = thisUserID });
+
+                // ??? Why is it the following in the AccountController?
+                //return RedirectToAction("Index", "Employee", new { id = thisUserID });
+            }
+            catch
+            {
+                // STOP - ??? where to send them if the above fails?
+                return View();
+            }
+
+
+            // return to index!!!
+            return View(db.Employees.Find(id));
+        }
+
+        //// POST: Employee/Index = confirm pickup
+        //[HttpPost]
+        //public ActionResult Index(int id, int employeeID)
+        //{
+        //    // We are confirming a pickup today for the customer id
+        //    try
+        //    {
+        //        Customer customer  = db.Customers.Find(id);
+        //        customer.Bill = customer.Bill + 25;
+        //        //Empemp1!@gmail.com
+        //        customer.BillDetails = customer.BillDetails ?? "" + DateTime.Today.Month.ToString() + "/" + 
+        //            DateTime.Today.Day.ToString() + " $25; ";
+        //        db.SaveChanges();
+
+        //        //int thisUserID = db.Employees.Where(w => w.ApplicationUser.Email == model.Email).SingleOrDefault().ID;
+        //        //ViewBag.EmployeeID = thisUserID;
+        //        int thisUserID = ViewBag.EmployeeID;
+        //        return RedirectToAction("Index", "Employee", new { id = thisUserID });
+        //    }
+        //    catch
+        //    {
+        //        // STOP - where to send them if the above fails?
+        //        return View();
+        //    }
+
+        //}
 
         // GET: Employee/Details/5
         public ActionResult Details(int id)
@@ -129,6 +217,9 @@ namespace TrashCollector.Controllers
             {
                 db.Employees.Remove(db.Employees.Find(id));
                 db.SaveChanges();
+
+                // STOP - send them to somewhere that will work;  
+                // Index requires an employee ID as integer
                 return RedirectToAction("Index");
             }
             catch
