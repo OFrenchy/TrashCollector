@@ -2,7 +2,9 @@
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using TrashCollector.Models;
@@ -27,7 +29,10 @@ namespace TrashCollector.Controllers
         public ActionResult Index(int? selectDayOfWeek)
         {
             //Empemp1!@gmail.com
-            
+
+            //document.getElementById( )
+
+
             // Build the list of days
             List<SelectListItem> DaysOfWeek = new List<SelectListItem>();
             DayOfWeek dow = DayOfWeek.Monday;
@@ -85,8 +90,6 @@ namespace TrashCollector.Controllers
 
             //Empemp1!@gmail.com
 
-            // LINQ didn't recognize the ToInt32
-            // int dayOfWeek = Convert.ToInt32(DateTime.Today.DayOfWeek);
             var customers = db.Customers.Where
                 (w =>
                     (w.Zip == db.Employees.Where(e => e.ID == employee.ID).FirstOrDefault().Zip) &&
@@ -104,14 +107,11 @@ namespace TrashCollector.Controllers
             //DaysOfWeek.Add((new SelectListItem() { Text = "*", Value = "*" }));
             ViewBag.DaysOfWeek = DaysOfWeek;
             ViewBag.Day = DateTime.Today.DayOfWeek.ToString();
-return View("Index", customers);
+            return View("Index", customers);
 
-            return RedirectToAction("Index", "Employee");
-
+            //return RedirectToAction("Index", "Employee");
             
-
-
-            return View(customers);
+            //return View(customers);
         }
         // ConfirmPickup
         public ActionResult ConfirmPickup(int id)
@@ -131,6 +131,27 @@ return View("Index", customers);
             {
                 return RedirectToAction("Index", "Employee");
             }
+        }
+
+        public Action MapAddress(int id)
+        {
+            Customer customer = db.Customers.Find(id);
+
+            //string addressForGoogle = customer.Street.Trim().Replace(" ", "+") + "+" + 
+            //    customer.City.Trim().Replace(" ", "+") + "+" + customer.State.Trim().Trim().Replace(" ", "+");
+
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.Append(customer.Street.Trim().Replace(" ", "+"));
+            stringBuilder.Append("+");
+            stringBuilder.Append(customer.City.Trim().Replace(" ", "+"));
+            stringBuilder.Append("+");
+            stringBuilder.Append(customer.State.Trim().Trim().Replace(" ", "+"));
+
+            Process.Start(stringBuilder.ToString());
+
+            //https://www.google.com/maps/search/?api=1&query=centurylink+field
+
+            return null;
         }
 
         // GET: Employee/Confirm/5
