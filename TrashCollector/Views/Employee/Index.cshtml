@@ -28,17 +28,32 @@
             </td>
         </tr>
         <tr>
-            @*<td>
-                    <input type="submit" value="Go">
-                </td>*@
+            <td>
+                @Html.ActionLink("Map All Addresses", "MapAllAddresses")  @*, new { dayOfWeek = selectDayOfWeek.Value })*@
+            </td>
         </tr>
+
     </table>
 }
+@*@using (Html.BeginForm("MapAllAddresses", "Employee"))
+{
+    <table>
+        <tr>
+            <td>
+                @Html.ActionLink("Map All Addresses", "MapAllAddresses", new { dayOfWeek = selectDayOfWeek.Value })
+            </td>
+        </tr>
+
+    </table>
+}*@
+
+
+
 
 @*<!DOCTYPE html>
-<html>
-<head>*@
-    @*<title>Simple Map</title>
+    <html>
+    <head>*@
+@*<title>Simple Map</title>
     <meta name="viewport" content="initial-scale=1.0">
     <meta charset="utf-8">
     <style>
@@ -55,65 +70,67 @@
         }
     </style>*@
 @*</head>
-<body>*@
+    <body>*@
 
 
 
 
 
-    @*return RedirectToAction("Index", "Employee");//, new { id = thisUserID });
-        @Html.ActionLink("Delete", "Delete", new { id = item.ID })*@
+@*return RedirectToAction("Index", "Employee");//, new { id = thisUserID });
+    @Html.ActionLink("Delete", "Delete", new { id = item.ID })*@
 
-    @*// ViewBag.Day*@
-    <p>
-        @*@Html.ActionLink("Create New", "Create")*@
-        @*@Html.   .DisplayText("Looking at work for ")*@
-        @*@Html.DropDownList("DayOfWeek", (IEnumerable<SelectListItem>)ViewBag.DaysOfWeek, " ")*@
-    </p>
+@*// ViewBag.Day*@
+<p>
+    @*@Html.ActionLink("Create New", "Create")*@
+    @*@Html.   .DisplayText("Looking at work for ")*@
+    @*@Html.DropDownList("DayOfWeek", (IEnumerable<SelectListItem>)ViewBag.DaysOfWeek, " ")*@
+</p>
 
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Street)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.City)
-            </th>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Street)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.City)
+        </th>
 
-            <th>
-                @Html.DisplayNameFor(model => model.DayOfWeekPickup)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SpecialPickupDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StopDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StartDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Bill)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BillDetails)
-            </th>
-            <th>
-                @*@Html.DisplayNameFor("Confirm")*@
-                @Html.DisplayName("Confirm Pickup")
-            </th>
-            <th>
-                @*@Html.DisplayNameFor("Confirm")*@
-                @Html.DisplayName("Map")
-            </th>
-            <th></th>
-        </tr>
+        <th>
+            @*@Html.DisplayNameFor(model => model.DayOfWeekPickup)*@
+            DOW P/U
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.SpecialPickupDate)*@
+            Spc P/U Date
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StopDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StartDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Bill)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BillDetails)
+        </th>
+        <th>
+            @*@Html.DisplayNameFor("Confirm")*@
+            @Html.DisplayName("Confirm Pickup")
+        </th>
+        <th>
+            @*@Html.DisplayNameFor("Confirm")*@
+            @Html.DisplayName("Map")
+        </th>
+        <th></th>
+    </tr>
 
-        @foreach (var item in Model)
-        {
+    @foreach (var item in Model)
+    {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
@@ -150,41 +167,41 @@
                 @Html.ActionLink("Confirm", "ConfirmPickup", new { id = item.ID }) |
             </td>
             <td>
-                @Html.Action("Map", "MapAddress", new { id = item.ID})
+                @Html.ActionLink("Map", "MapAddress", new { id = item.ID })
             </td>
-
-            <td>
+            @*<td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
                 @Html.ActionLink("Details", "Details", new { id = item.ID }) |
                 @Html.ActionLink("Delete", "Delete", new { id = item.ID })
-            </td>
+                return RedirectToAction( "Details" , "Customer", new { id = thisUserID });
+            </td>*@
         </tr>
-        }
-    </table>
+    }
+</table>
 
 
-    @*<!DOCTYPE html>
-        <html>
-        <head>
-            <title>Simple Map</title>
-            <meta name="viewport" content="initial-scale=1.0">
-            <meta charset="utf-8">
-            <style>
-                 /* Always set the map height explicitly to define the size of the div
-                * element that contains the map. */
-                 #map {
-                     height: 10%;
-                 }
-                 /* Optional: Makes the sample page fill the window. */
-                 html, body {
-                     height: 10%;
-                     margin: 0;
-                     padding: 0;
-                 }
-            </style>
-        </head>*@
-    @*<body>*@
-    @*<div id="map"></div>
+@*<!DOCTYPE html>
+    <html>
+    <head>
+        <title>Simple Map</title>
+        <meta name="viewport" content="initial-scale=1.0">
+        <meta charset="utf-8">
+        <style>
+             /* Always set the map height explicitly to define the size of the div
+            * element that contains the map. */
+             #map {
+                 height: 10%;
+             }
+             /* Optional: Makes the sample page fill the window. */
+             html, body {
+                 height: 10%;
+                 margin: 0;
+                 padding: 0;
+             }
+        </style>
+    </head>*@
+@*<body>*@
+@*<div id="map"></div>
     <script>
         var map;
         function initMap() {
@@ -197,7 +214,7 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap"
             async defer></script>*@
 @*</body>
-</html>*@
+    </html>*@
 
 
 

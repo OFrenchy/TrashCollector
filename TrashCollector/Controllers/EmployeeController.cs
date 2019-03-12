@@ -80,7 +80,74 @@ namespace TrashCollector.Controllers
                 return View(customers);
             }
             //return View(customers);
-        }
+        } // index
+
+        //FilterDayOfWeek(int selectDayOfWeek)
+        public ActionResult MapAllAddresses(int? selectDayOfWeek)
+        {
+            //https://www.google.com/maps/search/?api=1&query=centurylink+field
+            //Empemp1!@gmail.com
+
+            if (selectDayOfWeek == null) selectDayOfWeek = Convert.ToInt32( DateTime.Today.DayOfWeek);
+
+            var customers = db.Customers.Where(w => w.DayOfWeekPickup == selectDayOfWeek);
+
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.Append("https://www.google.com/maps/search/?api=1&query=");
+            foreach (Customer customer in customers)
+            {
+                stringBuilder.Append(customer.Street.Trim().Replace(" ", "+"));
+                stringBuilder.Append(",");
+                stringBuilder.Append(customer.City.Trim().Replace(" ", "+"));
+                stringBuilder.Append(",");
+                stringBuilder.Append(customer.State.Trim().Replace(" ", "+"));
+                stringBuilder.Append(";");
+            }
+
+            Process.Start(stringBuilder.ToString());
+
+            // convert address to lat/long
+            //https://maps.googleapis.com/maps/api/geocode/json?parameters
+            //stringBuilder.Clear();
+            //stringBuilder.Append("https://maps.googleapis.com/maps/api/geocode/json?parameters");
+            //stringBuilder.Append(customer.Street.Trim().Replace(" ", "+"));
+            //stringBuilder.Append(",");
+            //stringBuilder.Append(customer.City.Trim().Replace(" ", "+"));
+            //stringBuilder.Append(",");
+            //stringBuilder.Append(customer.State.Trim().Replace(" ", "+"));
+            return RedirectToAction("Index", "Employee");
+            //return null;
+        } // MapAllAddresses
+        public ActionResult MapAddress(int? id)
+        {
+            //https://www.google.com/maps/search/?api=1&query=centurylink+field
+            //Empemp1!@gmail.com
+
+            Customer customer = db.Customers.Find(id);
+
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.Append("https://www.google.com/maps/search/?api=1&query=");
+            stringBuilder.Append(customer.Street.Trim().Replace(" ", "+"));
+            stringBuilder.Append(",");
+            stringBuilder.Append(customer.City.Trim().Replace(" ", "+"));
+            stringBuilder.Append(",");
+            stringBuilder.Append(customer.State.Trim().Replace(" ", "+"));
+
+            Process.Start(stringBuilder.ToString());
+
+            // convert address to lat/long
+            //https://maps.googleapis.com/maps/api/geocode/json?parameters
+            //stringBuilder.Clear();
+            //stringBuilder.Append("https://maps.googleapis.com/maps/api/geocode/json?parameters");
+            //stringBuilder.Append(customer.Street.Trim().Replace(" ", "+"));
+            //stringBuilder.Append(",");
+            //stringBuilder.Append(customer.City.Trim().Replace(" ", "+"));
+            //stringBuilder.Append(",");
+            //stringBuilder.Append(customer.State.Trim().Replace(" ", "+"));
+            return RedirectToAction("Index", "Employee");
+            //return null;
+        } // MapAddress
+
         // FilterDayOfWeek
         public ActionResult FilterDayOfWeek(int selectDayOfWeek)
         {
@@ -132,28 +199,7 @@ namespace TrashCollector.Controllers
                 return RedirectToAction("Index", "Employee");
             }
         }
-
-        public Action MapAddress(int id)
-        {
-            Customer customer = db.Customers.Find(id);
-
-            //string addressForGoogle = customer.Street.Trim().Replace(" ", "+") + "+" + 
-            //    customer.City.Trim().Replace(" ", "+") + "+" + customer.State.Trim().Trim().Replace(" ", "+");
-
-            StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.Append(customer.Street.Trim().Replace(" ", "+"));
-            stringBuilder.Append("+");
-            stringBuilder.Append(customer.City.Trim().Replace(" ", "+"));
-            stringBuilder.Append("+");
-            stringBuilder.Append(customer.State.Trim().Trim().Replace(" ", "+"));
-
-            Process.Start(stringBuilder.ToString());
-
-            //https://www.google.com/maps/search/?api=1&query=centurylink+field
-
-            return null;
-        }
-
+        
         // GET: Employee/Confirm/5
         public ActionResult Confirm(int id)
         {
