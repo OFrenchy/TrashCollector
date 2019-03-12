@@ -118,31 +118,24 @@
     </dl>
 </div>
 @*<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ID })
-   <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Pay Bill" class="btn btn-default" />
-        </div>
-    </div>
+     @Html.ActionLink("Edit", "Edit", new { id = Model.ID })
+    <div class="form-group">
+         <div class="col-md-offset-2 col-md-10">
+             <input type="submit" value="Pay Bill" class="btn btn-default" />
+         </div>
+     </div>
 
-    </p>*@
-    @using (Html.BeginForm("PayBill", "Customer"))
-    {
-        <table>
-            <tr>
-                <td>
-                    @Html.DropDownList("selectDayOfWeek", (IEnumerable<SelectListItem>)ViewBag.DaysOfWeek, " ")
-                    @*@Html.DropDownList("SelectedDayOfWeek2", (IEnumerable<SelectListItem>)ViewBag.DaysOfWeek)*@
-                </td>
-                <td>
-                    <input type="submit" value="Go">
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    @Html.ActionLink("Map All Addresses", "MapAllAddresses")  @*, new { dayOfWeek = selectDayOfWeek.Value })*@
-                </td>
-            </tr>
+     </p>*@
 
-        </table>
-    }
+@Html.ActionLink("Pay Bill", "PayBill", new { id = Model.ID })
+
+@*@using (Html.BeginForm("PayBill", "Customer"))
+{
+    <table>
+        <tr>
+            <td>
+                <input type="submit" value="Pay Bill">
+            </td>
+        </tr>
+    </table>
+}*@

@@ -31,7 +31,7 @@ namespace TrashCollector.Controllers
         }
         public ActionResult PayBill(int id)
         {
-            var customer = db.Customers.Find(id));
+            Customer customer = db.Customers.Find(id);
 
             // insert actual payment transaction here
             bool paymentSuccessful = true; // would actually be an api call
@@ -42,8 +42,8 @@ namespace TrashCollector.Controllers
                 customer.BillDetails = null;
                 db.SaveChanges();
             }
-
-            return View(db.Customers.Find(id));
+            return RedirectToAction("Details", new { id = customer.ID });
+            //return View(db.Customers.Find(id));
         }
 
             // GET: Customer/Create
@@ -58,27 +58,14 @@ namespace TrashCollector.Controllers
         {
             try
             {
-                //db.SuperHeroes.Add(superHero);
-                //db.SaveChanges();
-                //return RedirectToAction("Index");
-                //customer.Name = 
-
-
-                //customer.ApplicationUser = "Customer";
-                //customer.BillDetails = "";
                 customer.RoleName = "Customer";
                 customer.ApplicationUserId = User.Identity.GetUserId();
-                //customer.ApplicationUser = User.Identity.GetUserName();
-
-
                 db.Customers.Add(customer);
                 db.SaveChanges();
-                //return RedirectToAction("Edit");
                 return RedirectToAction("Edit", new { id = customer.ID });
             }
             catch
             {
-                //return View(superHero);
                 return View(customer);
             }
         }

@@ -51,6 +51,7 @@ namespace TrashCollector.Controllers
 
             //Empemp1!@gmail.com
 
+            // if null, default to today;  apply all the filters
             if (selectDayOfWeek == null)
             {
                 // LINQ didn't recognize the ToInt32
@@ -61,8 +62,8 @@ namespace TrashCollector.Controllers
                             (w.Zip == db.Employees.Where(e => e.ID == employee.ID).FirstOrDefault().Zip) &&
                             (w.DayOfWeekPickup == dayOfWeek) &&
                             (
-                                (w.StartDate != null ? DateTime.Today < w.StartDate : true) ||
-                                (w.StopDate != null ? DateTime.Today >= w.StopDate : true)
+                                (w.StopDate != null ? DateTime.Today < w.StopDate : true) ||
+                                (w.StartDate != null ? DateTime.Today >= w.StartDate : true)
                             )
                         ) 
                         ||
@@ -71,6 +72,8 @@ namespace TrashCollector.Controllers
                 return View(customers);
             }
             else
+                // show all of the selected days' pickups;  since it's not today, show all;  
+                // the customer could always go online & change something between now & then anyway
             {
                 var customers = db.Customers.Where
                 (w =>
@@ -85,12 +88,30 @@ namespace TrashCollector.Controllers
         //FilterDayOfWeek(int selectDayOfWeek)
         public ActionResult MapAllAddresses(int? selectDayOfWeek)
         {
-            //https://www.google.com/maps/search/?api=1&query=centurylink+field
+            var appUserID = User.Identity.GetUserId();
+            var employee = db.Employees.Where(e => e.ApplicationUserId == appUserID).First();
+            // https://www.google.com/maps/search/?api=1&query=centurylink+field
+            // https://www.google.com/maps/place/1817+Spruce+Ct,+South+Milwaukee,+WI  : works too 
+
             //Empemp1!@gmail.com
 
             if (selectDayOfWeek == null) selectDayOfWeek = Convert.ToInt32( DateTime.Today.DayOfWeek);
 
-            var customers = db.Customers.Where(w => w.DayOfWeekPickup == selectDayOfWeek);
+            //var customers = db.Customers.Where(w => w.DayOfWeekPickup == selectDayOfWeek && w.Zip == employee.Zip);
+            var customers = db.Customers.Where
+                    (w =>
+                        (
+                            (w.Zip == db.Employees.Where(e => e.ID == employee.ID).FirstOrDefault().Zip) &&
+                            (w.DayOfWeekPickup == selectDayOfWeek) &&
+                            (
+                                (w.StopDate != null ? DateTime.Today < w.StopDate : true) ||
+                                (w.StartDate != null ? DateTime.Today >= w.StartDate : true)
+                            )
+                        )
+                        ||
+                        w.SpecialPickupDate == DateTime.Today
+                    ).ToList();
+
 
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.Append("https://www.google.com/maps/search/?api=1&query=");
@@ -120,9 +141,10 @@ namespace TrashCollector.Controllers
         } // MapAllAddresses
         public ActionResult MapAddress(int? id)
         {
-            //https://www.google.com/maps/search/?api=1&query=centurylink+field
+            // https://www.google.com/maps/search/?api=1&query=centurylink+field
+            // https://www.google.com/maps/place/1817+Spruce+Ct,+South+Milwaukee,+WI  : works too 
+            
             //Empemp1!@gmail.com
-
             Customer customer = db.Customers.Find(id);
 
             StringBuilder stringBuilder = new StringBuilder();
@@ -188,9 +210,11 @@ namespace TrashCollector.Controllers
             {
                 //Empemp1!@gmail.com
                 Customer customer = db.Customers.Find(id);
-                customer.Bill = customer.Bill + 25;
-                customer.BillDetails = (customer.BillDetails ?? "") + DateTime.Today.Month.ToString() + "/" +
-                    DateTime.Today.Day.ToString() + " $25; ";
+                // Only bill them if it's not their free pickup
+                int amountDue = 25;
+                if (DateTime.Today == (customer.SpecialPickupDate ?? DateTime.Today.AddDays(-1)))  amountDue = 0; 
+                customer.Bill = customer.Bill + amountDue;
+                customer.BillDetails = $"{(customer.BillDetails ?? "")}{DateTime.Today.Month.ToString()}/{DateTime.Today.Day.ToString()} ${amountDue}; ";
                 db.SaveChanges();
                 return RedirectToAction("Index", "Employee");
             }
