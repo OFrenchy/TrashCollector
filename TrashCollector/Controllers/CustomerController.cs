@@ -29,9 +29,25 @@ namespace TrashCollector.Controllers
             //return View(db.SuperHeroes.Find(id));
             return View(db.Customers.Find(id));
         }
+        public ActionResult PayBill(int id)
+        {
+            var customer = db.Customers.Find(id));
 
-        // GET: Customer/Create
-        public ActionResult Create()
+            // insert actual payment transaction here
+            bool paymentSuccessful = true; // would actually be an api call
+            
+            if (paymentSuccessful)
+            {
+                customer.Bill = 0;
+                customer.BillDetails = null;
+                db.SaveChanges();
+            }
+
+            return View(db.Customers.Find(id));
+        }
+
+            // GET: Customer/Create
+            public ActionResult Create()
         {
             return View();
         }

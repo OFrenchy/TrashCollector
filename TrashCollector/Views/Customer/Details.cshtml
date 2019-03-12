@@ -88,7 +88,7 @@
         </dt>
 
         <dd>
-             $@Html.DisplayFor(model => model.Bill)
+            $@Html.DisplayFor(model => model.Bill)
         </dd>
 
         <dt>
@@ -100,34 +100,49 @@
         </dd>
 
         @*<dt>
-            @Html.DisplayNameFor(model => model.RoleName)
-        </dt>
+                @Html.DisplayNameFor(model => model.RoleName)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.RoleName)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.RoleName)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.ApplicationUserId)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.ApplicationUserId)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.ApplicationUserId)
-        </dd>*@
+            <dd>
+                @Html.DisplayFor(model => model.ApplicationUserId)
+            </dd>*@
 
     </dl>
 </div>
-<p>
+@*<p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.ID })
-
-
-    @*@Html.Action("PayBill")*@
-
-    <div class="form-group">
+   <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
             <input type="submit" value="Pay Bill" class="btn btn-default" />
-            <button>Pay Bill</button>
         </div>
     </div>
 
-</p>
+    </p>*@
+    @using (Html.BeginForm("PayBill", "Customer"))
+    {
+        <table>
+            <tr>
+                <td>
+                    @Html.DropDownList("selectDayOfWeek", (IEnumerable<SelectListItem>)ViewBag.DaysOfWeek, " ")
+                    @*@Html.DropDownList("SelectedDayOfWeek2", (IEnumerable<SelectListItem>)ViewBag.DaysOfWeek)*@
+                </td>
+                <td>
+                    <input type="submit" value="Go">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.ActionLink("Map All Addresses", "MapAllAddresses")  @*, new { dayOfWeek = selectDayOfWeek.Value })*@
+                </td>
+            </tr>
+
+        </table>
+    }
