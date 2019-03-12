@@ -32,7 +32,6 @@ namespace TrashCollector.Controllers
 
             //document.getElementById( )
 
-
             // Build the list of days
             List<SelectListItem> DaysOfWeek = new List<SelectListItem>();
             DayOfWeek dow = DayOfWeek.Monday;
@@ -47,7 +46,6 @@ namespace TrashCollector.Controllers
             
             var appUserID = User.Identity.GetUserId();
             var employee = db.Employees.Where(e => e.ApplicationUserId == appUserID).First();
-            //var customers; //= db.Employees.FirstOrDefault();
 
             //Empemp1!@gmail.com
 
@@ -82,7 +80,6 @@ namespace TrashCollector.Controllers
                 ).ToList();
                 return View(customers);
             }
-            //return View(customers);
         } // index
 
         //FilterDayOfWeek(int selectDayOfWeek)
@@ -97,7 +94,6 @@ namespace TrashCollector.Controllers
 
             if (selectDayOfWeek == null) selectDayOfWeek = Convert.ToInt32( DateTime.Today.DayOfWeek);
 
-            //var customers = db.Customers.Where(w => w.DayOfWeekPickup == selectDayOfWeek && w.Zip == employee.Zip);
             var customers = db.Customers.Where
                     (w =>
                         (
@@ -127,6 +123,7 @@ namespace TrashCollector.Controllers
 
             Process.Start(stringBuilder.ToString());
 
+            // For future development
             // convert address to lat/long
             //https://maps.googleapis.com/maps/api/geocode/json?parameters
             //stringBuilder.Clear();
@@ -136,8 +133,8 @@ namespace TrashCollector.Controllers
             //stringBuilder.Append(customer.City.Trim().Replace(" ", "+"));
             //stringBuilder.Append(",");
             //stringBuilder.Append(customer.State.Trim().Replace(" ", "+"));
+
             return RedirectToAction("Index", "Employee");
-            //return null;
         } // MapAllAddresses
         public ActionResult MapAddress(int? id)
         {
@@ -157,6 +154,7 @@ namespace TrashCollector.Controllers
 
             Process.Start(stringBuilder.ToString());
 
+            // For future development
             // convert address to lat/long
             //https://maps.googleapis.com/maps/api/geocode/json?parameters
             //stringBuilder.Clear();
@@ -166,8 +164,8 @@ namespace TrashCollector.Controllers
             //stringBuilder.Append(customer.City.Trim().Replace(" ", "+"));
             //stringBuilder.Append(",");
             //stringBuilder.Append(customer.State.Trim().Replace(" ", "+"));
+
             return RedirectToAction("Index", "Employee");
-            //return null;
         } // MapAddress
 
         // FilterDayOfWeek
@@ -197,10 +195,6 @@ namespace TrashCollector.Controllers
             ViewBag.DaysOfWeek = DaysOfWeek;
             ViewBag.Day = DateTime.Today.DayOfWeek.ToString();
             return View("Index", customers);
-
-            //return RedirectToAction("Index", "Employee");
-            
-            //return View(customers);
         }
         // ConfirmPickup
         public ActionResult ConfirmPickup(int id)
@@ -227,69 +221,21 @@ namespace TrashCollector.Controllers
         // GET: Employee/Confirm/5
         public ActionResult Confirm(int id)
         {
-            // id is of customer to confirm pickup
+            // id is customer's id to confirm pickup
             try
             {
                 Customer customer = db.Customers.Find(id);
-
                 return View(customer);
-
-
-                // STOP:  put this in the HTTPPOST??
-
-                customer.Bill = customer.Bill + 25;
-                //Empemp1!@gmail.com
-                customer.BillDetails = customer.BillDetails ?? "" + DateTime.Today.Month.ToString() + "/" +
-                    DateTime.Today.Day.ToString() + " $25; ";
-                db.SaveChanges();
-
-                //int thisUserID = db.Employees.Where(w => w.ApplicationUser.Email == model.Email).SingleOrDefault().ID;
-                //ViewBag.EmployeeID = thisUserID;
-                int thisUserID = ViewBag.EmployeeID;
-                // STOP - ??? Do I need to include the employee ID?  
-                return RedirectToAction("Index", "Employee", new { id = thisUserID });
-
-                // ??? Why is it the following in the AccountController?
-                //return RedirectToAction("Index", "Employee", new { id = thisUserID });
             }
             catch
             {
-                // STOP - ??? where to send them if the above fails?
-                return View();
+                return RedirectToAction("Index", "Employee");
+                //return RedirectToAction("Index");
+                // in the AccountController
+                //return RedirectToAction("Index", "Employee", new { id = thisUserID });
             }
-
-
-            // return to index!!!
-            return View(db.Employees.Find(id));
         }
-
-        //// POST: Employee/Index = confirm pickup
-        //[HttpPost]
-        //public ActionResult Index(int id, int employeeID)
-        //{
-        //    // We are confirming a pickup today for the customer id
-        //    try
-        //    {
-        //        Customer customer  = db.Customers.Find(id);
-        //        customer.Bill = customer.Bill + 25;
-        //        //Empemp1!@gmail.com
-        //        customer.BillDetails = customer.BillDetails ?? "" + DateTime.Today.Month.ToString() + "/" + 
-        //            DateTime.Today.Day.ToString() + " $25; ";
-        //        db.SaveChanges();
-
-        //        //int thisUserID = db.Employees.Where(w => w.ApplicationUser.Email == model.Email).SingleOrDefault().ID;
-        //        //ViewBag.EmployeeID = thisUserID;
-        //        int thisUserID = ViewBag.EmployeeID;
-        //        return RedirectToAction("Index", "Employee", new { id = thisUserID });
-        //    }
-        //    catch
-        //    {
-        //        // STOP - where to send them if the above fails?
-        //        return View();
-        //    }
-
-        //}
-
+        
         // GET: Employee/Details/5
         public ActionResult Details(int id)
         {
@@ -360,9 +306,6 @@ namespace TrashCollector.Controllers
             {
                 db.Employees.Remove(db.Employees.Find(id));
                 db.SaveChanges();
-
-                // STOP - send them to somewhere that will work;  
-                // Index requires an employee ID as integer
                 return RedirectToAction("Index");
             }
             catch

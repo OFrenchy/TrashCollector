@@ -16,17 +16,10 @@ namespace TrashCollector.Controllers
         {
             db = new ApplicationDbContext();
         }
-        // GET: Customer
-        //public ActionResult Index()
-        //{
-        //    //return View(db.SuperHeroes.OrderBy(o => o.Name).ToList());
-        //    return View(db.Customers.OrderBy(o => o.ApplicationUser.Email).ToList());
-        //}
 
         // GET: Customer/Details/5
         public ActionResult Details(int id)
         {
-            //return View(db.SuperHeroes.Find(id));
             return View(db.Customers.Find(id));
         }
         public ActionResult PayBill(int id)
@@ -43,11 +36,10 @@ namespace TrashCollector.Controllers
                 db.SaveChanges();
             }
             return RedirectToAction("Details", new { id = customer.ID });
-            //return View(db.Customers.Find(id));
         }
 
-            // GET: Customer/Create
-            public ActionResult Create()
+        // GET: Customer/Create
+        public ActionResult Create()
         {
             return View();
         }
@@ -104,8 +96,6 @@ namespace TrashCollector.Controllers
                 thisCustomer.SpecialPickupDate = customer.SpecialPickupDate;
 
                 db.SaveChanges();
-                //return View(customer);
-                //return RedirectToAction("Details");
                 return RedirectToAction("Details", new { id = customer.ID });
             }
             catch
@@ -117,7 +107,6 @@ namespace TrashCollector.Controllers
         // GET: Customer/Delete/5
         public ActionResult Delete(int id)
         {
-            //return View();
             Customer customer = db.Customers.Find(id);
             return View(customer);
         }
@@ -128,7 +117,6 @@ namespace TrashCollector.Controllers
         {
             try
             {
-                // TODO: Add delete logic here
                 db.Customers.Remove(db.Customers.Find(id));
                 db.SaveChanges();
                 return RedirectToAction("Index");

@@ -79,7 +79,6 @@ namespace TrashCollector.Controllers
             {
                 return View(model);
             }
-
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
@@ -89,22 +88,8 @@ namespace TrashCollector.Controllers
 
                     if (model.UserRoles == "Customer")
                     {
-                        //_userManager.
-                        //var this = User.Identity.GetUserId(); // it's null at this point anyway
-
-                        //UserLoginInfo
-                        //ApplicationUser.
-                        //applica
-                        int thisUserID = context.Customers.Where(w => w.ApplicationUser.Email == model.Email).SingleOrDefault().ID ;
-                        //var this = context.Customers.Where(w => w.ApplicationUser.Email == model.Email).Select(s => s.ID);
-                        
-                        // want to do this
-                        //return RedirectToAction("Details", new { id = model.ID });
-                        //return RedirectToAction( "Details" , thisUserID);
+                       int thisUserID = context.Customers.Where(w => w.ApplicationUser.Email == model.Email).SingleOrDefault().ID ;
                         return RedirectToAction( "Details" , "Customer", new { id = thisUserID });
-                        
-
-                        //RedirectToRoute()
                     }
                     else if (model.UserRoles == "Employee")
                     {

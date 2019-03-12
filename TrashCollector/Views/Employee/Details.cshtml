@@ -18,36 +18,13 @@
         <dd>
             @Html.DisplayFor(model => model.Zip)
         </dd>
-
-        @*<dt>
-            @Html.DisplayNameFor(model => model.RoleName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.RoleName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ApplicationUserId)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ApplicationUserId)
-        </dd>*@
-
     </dl>
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
-
-    @*@Html.Action("GetWork")*@
-
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
             <input type="submit" value="Get Today's Pickup List" class="btn btn-default" />
         </div>
     </div>
-
- 
-
 </p>
