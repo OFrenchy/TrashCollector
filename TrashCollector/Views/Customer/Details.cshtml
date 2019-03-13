@@ -100,6 +100,8 @@
         </dd>
     </dl>
 </div>
-
-@Html.ActionLink("Pay Bill", "PayBill", new { id = Model.ID })
+<div>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Pay Bill", "PayBill", new { id = Model.ID })
+</div>
 
